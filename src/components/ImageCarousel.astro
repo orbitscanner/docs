@@ -1,0 +1,56 @@
+<div class="carousel">
+  <div class="carousel-container">
+    <div class="carousel-slide">
+      <img src="/screenshots/findings.png" alt="Findings Dashboard" />
+    </div>
+    <div class="carousel-slide">
+      <img src="/screenshots/scan_page.png" alt="Active Scans" />
+    </div>
+  </div>
+  <button class="carousel-btn prev" aria-label="Previous slide" onclick="prevSlide()">←</button>
+  <button class="carousel-btn next" aria-label="Next slide" onclick="nextSlide()">→</button>
+  <div class="carousel-dots">
+    <button class="carousel-dot active" aria-label="Go to slide 1" onclick="goToSlide(0)"></button>
+    <button class="carousel-dot" aria-label="Go to slide 2" onclick="goToSlide(1)"></button>
+  </div>
+</div>
+
+<script is:inline>
+  let currentSlide = 0;
+  let interval;
+
+  function updateSlides() {
+    const container = document.querySelector('.carousel-container');
+    const dots = document.querySelectorAll('.carousel-dot');
+    
+    if (container) {
+      container.style.transform = `translateX(-${currentSlide * 100}%)`;
+      dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentSlide);
+      });
+    }
+  }
+
+  function nextSlide() {
+    const slides = document.querySelectorAll('.carousel-slide');
+    currentSlide = (currentSlide + 1) % slides.length;
+    updateSlides();
+  }
+
+  function prevSlide() {
+    const slides = document.querySelectorAll('.carousel-slide');
+    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+    updateSlides();
+  }
+
+  function goToSlide(index) {
+    currentSlide = index;
+    updateSlides();
+  }
+
+  // Start auto-advance
+  interval = setInterval(nextSlide, 5000);
+
+  // Initial state
+  updateSlides();
+</script> 

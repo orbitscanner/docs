@@ -1,0 +1,134 @@
+---
+title: Developer Documentation
+description: Technical documentation for developers working with Orbit
+---
+
+# Developer Documentation
+
+This guide provides technical details for developers working on the Orbit platform.
+
+## Architecture Overview
+
+### Tech Stack
+- **Frontend**: SvelteKit
+- **Backend**: PocketBase (Go)
+- **Database**: SQLite (via PocketBase)
+- **UI**: Tailwind CSS, Flowbite
+- **Calendar**: Schedule-X
+- **Authentication**: Built-in PocketBase auth
+
+### Directory Structure
+```
+orbit/
+├── src/                # SvelteKit frontend
+│   ├── lib/           # Shared components and utilities
+│   ├── routes/        # Application routes
+│   └── app.html       # App template
+├── pocketbase/        # Backend server
+│   ├── migrations/    # Database migrations
+│   └── pb_hooks/     # PocketBase hooks
+└── docs/             # Documentation
+```
+
+## Development Setup
+
+### Environment Configuration
+Required environment variables:
+```env
+PUBLIC_POCKETBASE_URL=http://127.0.0.1:8090
+# Add other environment variables
+```
+
+### Development Workflow
+1. Make changes in a feature branch
+2. Write and run tests
+3. Submit pull request
+4. Code review
+5. Merge to main branch
+
+## Frontend Development
+
+### Component Structure
+- Use Svelte components
+- Implement TypeScript interfaces
+- Follow atomic design principles
+
+### State Management
+- Use Svelte stores
+- Implement proper type safety
+- Handle loading and error states
+
+### Routing
+- Protected routes
+- Public routes
+- Route guards
+
+## Backend Development
+
+### PocketBase Configuration
+- Collections setup
+- Authentication rules
+- File storage
+
+### API Endpoints
+- RESTful design
+- Error handling
+- Rate limiting
+
+### Database Schema
+- User collection
+- Organizations
+- Events
+- Notifications
+
+## Testing
+
+### Frontend Testing
+- Vitest for unit tests
+- Component testing
+- Integration testing
+
+### Backend Testing
+- Go testing framework
+- API endpoint testing
+- Database testing
+
+## Security
+
+### Authentication
+- JWT tokens
+- Session management
+- Password policies
+
+### Authorization
+- Role-based access control
+- Permission management
+- API security
+
+## Deployment
+
+### Production Setup
+1. Build frontend
+2. Configure PocketBase
+3. Set up environment
+4. Deploy services
+
+### Monitoring
+- Error tracking
+- Performance monitoring
+- Usage analytics
+
+## Contributing
+
+### Guidelines
+1. Follow code style guide
+2. Write documentation
+3. Include tests
+4. Update changelog
+
+### Pull Request Process
+1. Create feature branch
+2. Make changes
+3. Run tests
+4. Submit PR
+5. Address reviews 

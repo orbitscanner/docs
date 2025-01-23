@@ -1,0 +1,62 @@
+/* Custom styles for Orbit documentation */
+
+/* Logo handling for dark/light modes */
+[data-theme='dark'] .orbit-logo {
+  content: url('../assets/Orbit_White_Logo.png');
+}
+
+[data-theme='light'] .orbit-logo {
+  content: url('../assets/Orbit-Main-Logo.png');
+}
+
+/* Override Starlight variables for consistent branding */
+:root {
+  --sl-font: 'Inter', sans-serif;
+  --sl-color-accent: theme('colors.accent');
+  --sl-color-accent-high: theme('colors.accent');
+  --sl-color-primary: theme('colors.primary');
+  --sl-color-primary-high: theme('colors.primary-light');
+}
+
+/* Dark mode specific overrides */
+:root[data-theme='dark'] {
+  --sl-color-bg: theme('colors.background');
+  --sl-color-bg-nav: #0f0f0f;
+  --sl-color-bg-sidebar: #0f0f0f;
+  --sl-color-bg-inline-code: #1a1a1a;
+  --sl-color-text-accent: theme('colors.primary');
+  --sl-color-text-invert: theme('colors.background');
+}
+
+/* Light mode specific overrides */
+:root[data-theme='light'] {
+  --sl-color-bg-inline-code: #f3f4f6;
+  --sl-color-text-accent: theme('colors.primary-dark');
+}
+
+/* Custom styles for cards */
+.card {
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: var(--sl-color-primary);
+}
+
+/* Custom button styles */
+.custom-button {
+  background-color: var(--sl-color-primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.custom-button:hover {
+  opacity: 0.9;
+  background-color: var(--sl-color-primary-high);
+} 

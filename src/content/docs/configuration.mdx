@@ -1,0 +1,241 @@
+---
+title: Configuration Guide
+description: Learn how to configure and customize Orbit
+---
+
+# Configuration Guide
+
+This guide covers all configuration options and customization possibilities in Orbit.
+
+## Environment Variables
+
+### Required Variables
+```env
+# PocketBase URL
+PUBLIC_POCKETBASE_URL=http://127.0.0.1:8090
+
+# Application Settings
+PUBLIC_APP_NAME="Orbit"
+PUBLIC_APP_URL="http://localhost:5173"
+
+# Email Configuration
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USERNAME=your-username
+SMTP_PASSWORD=your-password
+SMTP_FROM=noreply@example.com
+```
+
+### Optional Variables
+```env
+# Microsoft Teams Integration
+TEAMS_WEBHOOK_URL=https://outlook.office.com/webhook/...
+
+# Development Settings
+DEBUG=true
+LOG_LEVEL=debug
+```
+
+## PocketBase Configuration
+
+### Admin Dashboard Settings
+1. Access admin dashboard at `http://localhost:8090/_/`
+2. Configure the following sections:
+   - Authentication providers
+   - File storage
+   - Email settings
+   - API rules
+
+### Collection Settings
+
+#### Users Collection
+```json
+{
+  "name": "users",
+  "type": "auth",
+  "fields": [
+    {
+      "name": "name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "avatar",
+      "type": "file"
+    }
+  ]
+}
+```
+
+#### Organizations Collection
+```json
+{
+  "name": "organizations",
+  "type": "base",
+  "fields": [
+    {
+      "name": "name",
+      "type": "text",
+      "required": true
+    },
+    {
+      "name": "members",
+      "type": "relation",
+      "options": {
+        "collectionId": "users"
+      }
+    }
+  ]
+}
+```
+
+## Frontend Customization
+
+### Theme Configuration
+```typescript
+// src/lib/theme.ts
+export const theme = {
+  colors: {
+    primary: '#4F46E5',
+    secondary: '#10B981',
+    // Add custom colors
+  },
+  // Add other theme settings
+}
+```
+
+### Layout Customization
+```typescript
+// src/routes/+layout.ts
+export const layout = {
+  sidebar: {
+    width: '250px',
+    collapsedWidth: '64px'
+  },
+  header: {
+    height: '64px'
+  }
+}
+```
+
+## Calendar Configuration
+
+### Schedule-X Settings
+```typescript
+// src/lib/calendar.ts
+export const calendarConfig = {
+  locale: 'en-US',
+  firstDayOfWeek: 0,
+  views: ['month', 'week', 'day'],
+  defaultView: 'month'
+}
+```
+
+## Notification Settings
+
+### Email Templates
+Location: `src/lib/email-templates/`
+
+#### Invitation Email
+```html
+<!-- invitation.html -->
+<h1>Welcome to {{organizationName}}</h1>
+<p>You've been invited to join {{organizationName}} on Orbit.</p>
+<a href="{{inviteUrl}}">Accept Invitation</a>
+```
+
+### Microsoft Teams Configuration
+```typescript
+// src/lib/notifications/teams.ts
+export const teamsConfig = {
+  messageTemplate: {
+    title: '{{eventType}}',
+    text: '{{eventDescription}}',
+    // Add other template settings
+  }
+}
+```
+
+## Security Configuration
+
+### Authentication Settings
+```typescript
+// src/lib/auth.ts
+export const authConfig = {
+  tokenExpiration: '7d',
+  passwordPolicy: {
+    minLength: 8,
+    requireNumbers: true,
+    requireSpecialChars: true
+  }
+}
+```
+
+### CORS Configuration
+```typescript
+// src/lib/cors.ts
+export const corsConfig = {
+  origin: ['http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  credentials: true
+}
+```
+
+## Performance Optimization
+
+### Caching Settings
+```typescript
+// src/lib/cache.ts
+export const cacheConfig = {
+  ttl: 3600,
+  storage: 'localStorage',
+  prefix: 'orbit:'
+}
+```
+
+### API Rate Limiting
+```typescript
+// src/lib/rate-limit.ts
+export const rateLimitConfig = {
+  window: '1m',
+  max: 100,
+  message: 'Too many requests'
+}
+```
+
+## Deployment Configuration
+
+### Production Settings
+```env
+NODE_ENV=production
+PUBLIC_APP_URL=https://your-domain.com
+PUBLIC_POCKETBASE_URL=https://api.your-domain.com
+```
+
+### Build Configuration
+```json
+{
+  "build": {
+    "outDir": "build",
+    "target": "esnext",
+    "sourcemap": false
+  }
+}
+```
+
+## Monitoring Configuration
+
+### Error Tracking
+```typescript
+// src/lib/monitoring.ts
+export const monitoringConfig = {
+  errorReporting: {
+    enabled: true,
+    sampleRate: 0.1
+  },
+  performance: {
+    enabled: true,
+    trackResources: true
+  }
+}
+``` 

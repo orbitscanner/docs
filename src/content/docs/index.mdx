@@ -1,0 +1,104 @@
+---
+title: " "
+description: A modern security scanning and automation platform
+template: splash
+hero:
+  tagline: Nuclei security scanning and automation platform
+  image:
+    dark: ../../assets/Orbit_White_Logo.png
+    light: ../../assets/Orbit-Main-Logo.png
+    alt: Orbit Logo
+  actions:
+    - text: Get Started
+      link: /getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/orbitscanner/orbit
+      icon: external
+---
+
+import { Card, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
+import ImageCarousel from '../../components/ImageCarousel.astro';
+
+## Key Features
+
+<CardGrid>
+  <Card title="Open Source" icon="github">
+    Built with transparency and community collaboration in mind. Free to use, modify, and contribute.
+  </Card>
+  <Card title="Easy to Use UI" icon="puzzle">
+    Modern, intuitive interface designed for both beginners and experts. Get started in minutes.
+  </Card>
+  <Card title="Modern Framework" icon="setting">
+    Built with cutting-edge technologies like SvelteKit, PocketBase, and Go for optimal performance.
+  </Card>
+  <Card title="Cloud Enabled" icon="cloud">
+    Deploy anywhere with our cloud-native architecture. Supports multiple cloud providers.
+  </Card>
+  <Card title="Automated Deployments" icon="rocket">
+    Streamline your workflow with automated deployments and infrastructure as code.
+  </Card>
+</CardGrid>
+
+<h2>Orbit In Action</h2>
+<ImageCarousel />
+
+<div class="video-section">
+  <h2>Watch Orbit Webcast</h2>
+  <div class="video-container">
+    <iframe
+      src="https://www.youtube.com/embed/cdZXHd28Uog?start=2065"
+      title="Orbit Webcast"
+      frameBorder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowFullScreen></iframe>
+  </div>
+</div>
+
+## Quick Start Guide
+
+<Tabs>
+  <TabItem label="Install">
+    ```bash
+    # Clone the repository
+    git clone https://github.com/orbitscanner/orbit
+
+    # Install dependencies
+    pnpm install
+    ```
+  </TabItem>
+  <TabItem label="Configure">
+    ```bash
+    # Copy environment file
+    cp .env.example .env
+
+    # Set up your configuration
+    pnpm setup
+    ```
+  </TabItem>
+  <TabItem label="Run">
+    ```bash
+    # Start the development server
+    pnpm dev
+
+    # Access at http://localhost:5173
+    ```
+  </TabItem>
+</Tabs>
+
+<CardGrid>
+  <Card title="Read the Documentation" icon="open-book">
+    Learn how to [set up and configure](/getting-started/) Orbit for your security needs.
+  </Card>
+  <Card title="Join Our Community" icon="discord">
+    Join the discussion in the [BHIS Discord](https://discord.gg/BHIS) community. We're here to help!
+  </Card>
+</CardGrid>
+
+<div class="powered-by">
+  <p>Brought to you by</p>
+  <a href="https://www.blackhillsinfosec.com" target="_blank" rel="noopener noreferrer">
+    <img src="/blackhills-logo.png" alt="Black Hills Information Security Logo" />
+  </a>
+</div>

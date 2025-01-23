@@ -1,0 +1,73 @@
+---
+title: Getting Started with Orbit
+description: Learn how to set up and start using Orbit
+---
+
+This guide will walk you through the process of setting up Orbit and getting started with its core features.
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- Node.js (v16 or later)
+- pnpm (v7 or later)
+- Go (v1.19 or later)
+- Git
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/orbit.git
+cd orbit
+```
+
+2. Install dependencies:
+```bash
+pnpm install
+```
+
+3. Set up PocketBase:
+```bash
+cd pocketbase
+go mod download
+```
+
+4. Configure environment variables:
+```bash
+cp .env.example .env
+```
+
+Edit the `.env` file with your configuration:
+
+```env
+PUBLIC_POCKETBASE_URL=http://127.0.0.1:8090
+# Add other required environment variables
+```
+
+## Running the Application
+
+1. Start PocketBase:
+```bash
+cd pocketbase
+./pocketbase serve
+```
+
+2. In a new terminal, start the development server:
+```bash
+pnpm dev
+```
+
+The application should now be running at `http://localhost:5173`
+
+## Initial Setup
+
+1. Create an admin account through the PocketBase admin interface at `http://127.0.0.1:8090/_/`
+2. Configure your SMTP settings in the PocketBase admin dashboard
+3. Set up your first organization and invite team members
+
+## Next Steps
+
+- [User Guide](/docs/user-guide/) - Learn how to use Orbit's features
+- [Configuration](/docs/configuration/) - Detailed configuration options
+- [Development Guide](/docs/development/) - Start developing with Orbit 

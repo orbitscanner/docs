@@ -1,0 +1,213 @@
+---
+title: API Reference
+description: Complete reference for Orbit's API endpoints
+---
+
+# API Reference
+
+This document provides a complete reference for all API endpoints in Orbit.
+
+## Authentication
+
+### Login
+```http
+POST /api/collections/users/auth-with-password
+```
+
+**Request Body:**
+```json
+{
+  "identity": "user@example.com",
+  "password": "password123"
+}
+```
+
+**Response:**
+```json
+{
+  "token": "JWT_TOKEN",
+  "record": {
+    "id": "USER_ID",
+    "email": "user@example.com",
+    // other user fields
+  }
+}
+```
+
+### Refresh Token
+```http
+POST /api/collections/users/auth-refresh
+```
+
+## Organizations
+
+### Create Organization
+```http
+POST /api/collections/organizations/records
+```
+
+**Request Body:**
+```json
+{
+  "name": "Organization Name",
+  "description": "Organization Description"
+}
+```
+
+### List Organizations
+```http
+GET /api/collections/organizations/records
+```
+
+### Update Organization
+```http
+PATCH /api/collections/organizations/records/{id}
+```
+
+## Invitations
+
+### Create Invitation
+```http
+POST /api/collections/invitations/records
+```
+
+**Request Body:**
+```json
+{
+  "email": "invite@example.com",
+  "organization": "ORG_ID",
+  "role": "member"
+}
+```
+
+### Accept Invitation
+```http
+POST /api/accept-invite
+```
+
+**Request Body:**
+```json
+{
+  "token": "INVITATION_TOKEN"
+}
+```
+
+## Calendar Events
+
+### Create Event
+```http
+POST /api/collections/events/records
+```
+
+**Request Body:**
+```json
+{
+  "title": "Event Title",
+  "start": "2023-01-01T10:00:00Z",
+  "end": "2023-01-01T11:00:00Z",
+  "description": "Event Description"
+}
+```
+
+### List Events
+```http
+GET /api/collections/events/records
+```
+
+### Update Event
+```http
+PATCH /api/collections/events/records/{id}
+```
+
+## Notifications
+
+### Get Notification Settings
+```http
+GET /api/collections/notification_settings/records
+```
+
+### Update Notification Settings
+```http
+PATCH /api/collections/notification_settings/records/{id}
+```
+
+**Request Body:**
+```json
+{
+  "email_enabled": true,
+  "teams_enabled": true,
+  "webhook_url": "https://teams.webhook.url"
+}
+```
+
+## Error Responses
+
+All endpoints may return the following error responses:
+
+### 400 Bad Request
+```json
+{
+  "code": 400,
+  "message": "Invalid request",
+  "data": {}
+}
+```
+
+### 401 Unauthorized
+```json
+{
+  "code": 401,
+  "message": "Authentication required",
+  "data": {}
+}
+```
+
+### 403 Forbidden
+```json
+{
+  "code": 403,
+  "message": "Insufficient permissions",
+  "data": {}
+}
+```
+
+### 404 Not Found
+```json
+{
+  "code": 404,
+  "message": "Record not found",
+  "data": {}
+}
+```
+
+## Rate Limiting
+
+API requests are limited to:
+- 100 requests per minute for authenticated users
+- 20 requests per minute for unauthenticated users
+
+## Authentication Headers
+
+Include the authentication token in the Authorization header:
+```http
+Authorization: Bearer YOUR_JWT_TOKEN
+```
+
+## Query Parameters
+
+Common query parameters for list endpoints:
+- `page`: Page number (default: 1)
+- `perPage`: Items per page (default: 30)
+- `sort`: Sort field and direction (e.g., `-created,name`)
+- `filter`: Filter query (e.g., `created >= "2023-01-01"`)
+
+## Webhook Events
+
+Available webhook event types:
+- `user.created`
+- `organization.created`
+- `invitation.sent`
+- `invitation.accepted`
+- `event.created`
+- `event.updated`
+- `event.deleted` 

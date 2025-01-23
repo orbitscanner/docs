@@ -1,0 +1,215 @@
+---
+title: Installation Guide
+description: Step-by-step guide to install and configure Orbit
+---
+
+# Installation Guide
+
+This guide will walk you through the complete installation process for Orbit.
+
+## System Requirements
+
+Before installing Orbit, ensure your system meets these requirements:
+
+- **Operating System**: Linux, macOS, or Windows
+- **Node.js**: v16.0.0 or later
+- **pnpm**: v7.0.0 or later
+- **Go**: v1.19 or later
+- **Git**: Latest version recommended
+- **Memory**: Minimum 2GB RAM
+- **Storage**: At least 1GB free space
+
+## Installation Steps
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/orbit.git
+cd orbit
+```
+
+### 2. Install Dependencies
+
+Install frontend dependencies:
+```bash
+pnpm install
+```
+
+Install backend dependencies:
+```bash
+cd backend
+go mod download
+```
+
+### 3. Configure Environment
+
+Create environment files:
+
+```bash
+# In the root directory
+cp .env.example .env
+```
+
+Edit `.env` with your configuration:
+
+```env
+PUBLIC_POCKETBASE_URL=http://127.0.0.1:8090
+PUBLIC_APP_URL=http://localhost:5173
+# Add other required environment variables
+```
+
+### 4. Initialize Database
+
+The database will be automatically initialized when you first run PocketBase.
+
+### 5. Start the Application
+
+Start the backend server:
+```bash
+cd backend
+go run main.go serve
+```
+
+In a new terminal, start the frontend development server:
+```bash
+pnpm dev
+```
+
+The application should now be running at:
+- Frontend: `http://localhost:5173`
+- Backend: `http://localhost:8090`
+- Admin UI: `http://localhost:8090/_/`
+
+## Initial Setup
+
+### 1. Create Admin Account
+
+1. Access the PocketBase Admin UI at `http://localhost:8090/_/`
+2. Create your first admin account
+3. Configure basic settings
+
+### 2. Configure Email
+
+Set up SMTP settings in the PocketBase Admin UI:
+1. Go to Settings > Mail Settings
+2. Enter your SMTP server details
+3. Test the email configuration
+
+### 3. Set Up Authentication
+
+1. Configure authentication providers
+2. Set up password policies
+3. Configure token settings
+
+## Production Deployment
+
+### 1. Build the Application
+
+Build the frontend:
+```bash
+pnpm build
+```
+
+Build the backend:
+```bash
+cd backend
+go build
+```
+
+### 2. Production Configuration
+
+Update environment variables for production:
+```env
+NODE_ENV=production
+PUBLIC_APP_URL=https://your-domain.com
+PUBLIC_POCKETBASE_URL=https://api.your-domain.com
+```
+
+### 3. Deploy
+
+1. Set up your web server (nginx recommended)
+2. Configure SSL certificates
+3. Set up reverse proxy
+4. Deploy the built application
+
+Example nginx configuration:
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    location / {
+        proxy_pass http://localhost:5173;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    location /api/ {
+        proxy_pass http://localhost:8090;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+```
+
+## Security Considerations
+
+1. **SSL/TLS**: Always use HTTPS in production
+2. **API Security**: Configure CORS properly
+3. **Authentication**: Set up proper JWT settings
+4. **File Uploads**: Configure proper file upload limits
+5. **Rate Limiting**: Enable rate limiting for API endpoints
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Port Conflicts**
+   - Check if ports 5173 and 8090 are available
+   - Change ports in configuration if needed
+
+2. **Database Issues**
+   - Ensure proper permissions on the database file
+   - Check database connection settings
+
+3. **Email Configuration**
+   - Verify SMTP settings
+   - Test email configuration in admin panel
+
+### Getting Help
+
+If you encounter issues:
+1. Check the logs in `backend/logs`
+2. Review the documentation
+3. Open an issue on GitHub
+4. Join our community Discord
+
+## Updating
+
+To update Orbit:
+
+1. Pull latest changes:
+```bash
+git pull origin main
+```
+
+2. Update dependencies:
+```bash
+pnpm install
+```
+
+3. Run migrations:
+```bash
+cd backend
+go run main.go migrate
+```
+
+4. Rebuild and restart the application
+
+## Next Steps
+
+After installation:
+- [Getting Started Guide](/docs/getting-started/)
+- [Configuration Guide](/docs/configuration/)
+- [User Guide](/docs/user-guide/)
+- [Developer Documentation](/docs/development/) 
