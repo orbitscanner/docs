@@ -1,55 +1,65 @@
-# Starlight Starter Kit: Basics
+# Orbit Documentation
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+This repository contains the official documentation for Orbit, security scanning and automation platform. The documentation is built using [Starlight](https://starlight.astro.build), a documentation framework powered by Astro.
+
+## 🚀 Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/orbitscanner/docs
+
+# Install dependencies
+pnpm install
+
+# Start the development server
+pnpm dev
+```
+
+Visit `http://localhost:4321` to see the documentation site.
+
+## 📖 Documentation Structure
 
 ```
-npm create astro@latest -- --template starlight
-```
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/starlight/tree/main/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/starlight/tree/main/examples/basics)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/withastro/starlight&create_from_path=examples/basics)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fwithastro%2Fstarlight%2Ftree%2Fmain%2Fexamples%2Fbasics&project-name=my-starlight-docs&repository-name=my-starlight-docs)
-
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro + Starlight project, you'll see the following folders and files:
-
-```
-.
-├── public/
+docs/
 ├── src/
-│   ├── assets/
-│   ├── content/
-│   │   ├── docs/
-│   │   └── config.ts
-│   └── env.d.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
+│   ├── content/docs/    # Documentation content (MDX files)
+│   ├── components/      # Custom components
+│   └── styles/          # CSS styles
+├── public/             # Static assets
+└── astro.config.mjs    # Astro configuration
 ```
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+## 🛠️ Development
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+### Prerequisites
+- Node.js (v16 or later)
+- pnpm (v7 or later)
 
-Static assets, like favicons, can be placed in the `public/` directory.
+### Commands
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production
+- `pnpm preview` - Preview production build
 
-## 🧞 Commands
+## 🎨 Customization
 
-All commands are run from the root of the project, from a terminal:
+The documentation uses Tailwind CSS for styling and can be customized through:
+- `src/styles/custom.css` - Custom CSS styles
+- `tailwind.config.mjs` - Tailwind configuration
+- `astro.config.mjs` - Starlight theme configuration
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## 🤝 Contributing
 
-## 👀 Want to learn more?
+We welcome contributions to improve the documentation! Please:
 
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## 📝 License
+
+This documentation is brought to you by [Black Hills Information Security](https://www.blackhillsinfosec.com).
+
+## 💬 Community
+
+Join our community on [Discord](https://discord.gg/BHIS) for support and discussions.
