@@ -59,23 +59,42 @@ import ImageCarousel from '../../components/ImageCarousel.astro';
 ## Quick Start Guide
 
 <Tabs>
-  <TabItem label="Download">
+  <TabItem label="Prerequisites">
+    :::caution[Required Tools]
+    Orbit requires Ansible and Terraform to be installed on your system.
+    See the [Getting Started](/getting-started/) guide for installation instructions.
+    :::
+  </TabItem>
+  <TabItem label="macOS">
     ```bash
-    # Download the Orbit executable
-    wget https://github.com/orbitscanner/orbit/releases/latest/download/orbit
-    
-    # Make it executable
-    chmod +x orbit
+    # For Apple Silicon (M1/M2)
+    wget https://github.com/orbitscanner/orbit/releases/download/v0.5.0/orbit_0.5.0_Darwin_arm64.tar.gz
+    tar -xzf orbit_0.5.0_Darwin_arm64.tar.gz
+
+    # For Intel Macs
+    wget https://github.com/orbitscanner/orbit/releases/download/v0.5.0/orbit_0.5.0_Darwin_x86_64.tar.gz
+    tar -xzf orbit_0.5.0_Darwin_x86_64.tar.gz
     ```
   </TabItem>
-  <TabItem label="Configure">
+  <TabItem label="Linux">
     ```bash
-    # Set your API key (must be 32 characters)
-    export ORBIT_API_KEY=12345678901234567890123456789012
+    # For x86_64 systems
+    wget https://github.com/orbitscanner/orbit/releases/download/v0.5.0/orbit_0.5.0_Linux_x86_64.tar.gz
+    tar -xzf orbit_0.5.0_Linux_x86_64.tar.gz
+
+    # For ARM64 systems
+    wget https://github.com/orbitscanner/orbit/releases/download/v0.5.0/orbit_0.5.0_Linux_arm64.tar.gz
+    tar -xzf orbit_0.5.0_Linux_arm64.tar.gz
     ```
   </TabItem>
   <TabItem label="Run">
     ```bash
+    # Make it executable
+    chmod +x orbit
+
+    # Set your encryption key (must be 32 characters)
+    export API_ENCRYPTION_KEY=12345678901234567890123456789012
+
     # Start Orbit
     ./orbit serve
 

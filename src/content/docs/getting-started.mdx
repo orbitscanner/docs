@@ -48,17 +48,68 @@ sudo yum -y install terraform
 
 ## Quick Installation
 
-### macOS and Linux
+### macOS
 
+For Apple Silicon (M1/M2) Macs:
 ```bash
-# Download the Orbit executable
-wget https://github.com/orbitscanner/orbit/releases/latest/download/orbit
+# Download the macOS ARM64 version
+wget https://github.com/orbitscanner/orbit/releases/download/v0.5.0/orbit_0.5.0_Darwin_arm64.tar.gz
 
+# Extract the archive
+tar -xzf orbit_0.5.0_Darwin_arm64.tar.gz
+```
+
+For Intel Macs:
+```bash
+# Download the macOS Intel/x86_64 version
+wget https://github.com/orbitscanner/orbit/releases/download/v0.5.0/orbit_0.5.0_Darwin_x86_64.tar.gz
+
+# Extract the archive
+tar -xzf orbit_0.5.0_Darwin_x86_64.tar.gz
+```
+
+After extracting, continue with:
+```bash
 # Make it executable
 chmod +x orbit
 
-# Set your API key (must be 32 characters)
-export ORBIT_API_KEY=12345678901234567890123456789012
+# Set your encryption key (must be 32 characters)
+export API_ENCRYPTION_KEY=12345678901234567890123456789012
+
+# Start Orbit
+./orbit serve
+
+# Access the web interface at
+http://localhost:8090
+```
+
+### Linux
+
+For x86_64 (64-bit) systems:
+```bash
+# Download the Linux x86_64 version
+wget https://github.com/orbitscanner/orbit/releases/download/v0.5.0/orbit_0.5.0_Linux_x86_64.tar.gz
+
+# Extract the archive
+tar -xzf orbit_0.5.0_Linux_x86_64.tar.gz
+```
+
+For ARM64 systems:
+```bash
+# Download the Linux ARM64 version
+wget https://github.com/orbitscanner/orbit/releases/download/v0.5.0/orbit_0.5.0_Linux_arm64.tar.gz
+
+# Extract the archive
+tar -xzf orbit_0.5.0_Linux_arm64.tar.gz
+```
+
+After extracting, continue with:
+```bash
+# Make it executable
+chmod +x orbit
+
+# Set your encryption key (must be 32 characters)
+export API_ENCRYPTION_KEY=12345678901234567890123456789012
 
 # Start Orbit
 ./orbit serve
@@ -89,7 +140,7 @@ docker pull orbitscanner/orbit:latest
 # Run Orbit container
 docker run -d \
   -p 8090:8090 \
-  -e ORBIT_API_KEY=12345678901234567890123456789012 \
+  -e API_ENCRYPTION_KEY=12345678901234567890123456789012 \
   orbitscanner/orbit:latest
 
 # Access the web interface at
@@ -109,7 +160,7 @@ services:
     ports:
       - "8090:8090"
     environment:
-      - ORBIT_API_KEY=12345678901234567890123456789012
+      - API_ENCRYPTION_KEY=12345678901234567890123456789012
     volumes:
       - orbit_data:/data
     restart: unless-stopped
@@ -138,5 +189,5 @@ If you encounter any issues:
 
 1. Check the logs with `./orbit logs`
 2. Ensure all prerequisites are installed
-3. Verify your API key is exactly 32 characters
+3. Verify your encryption key is exactly 32 characters
 4. Join our Discord for community support 
