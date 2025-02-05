@@ -59,30 +59,28 @@ import ImageCarousel from '../../components/ImageCarousel.astro';
 ## Quick Start Guide
 
 <Tabs>
-  <TabItem label="Install">
+  <TabItem label="Download">
     ```bash
-    # Clone the repository
-    git clone https://github.com/orbitscanner/orbit
-
-    # Install dependencies
-    pnpm install
+    # Download the Orbit executable
+    wget https://github.com/orbitscanner/orbit/releases/latest/download/orbit
+    
+    # Make it executable
+    chmod +x orbit
     ```
   </TabItem>
   <TabItem label="Configure">
     ```bash
-    # Copy environment file
-    cp .env.example .env
-
-    # Set up your configuration
-    pnpm setup
+    # Set your API key (must be 32 characters)
+    export ORBIT_API_KEY=12345678901234567890123456789012
     ```
   </TabItem>
   <TabItem label="Run">
     ```bash
-    # Start the development server
-    pnpm dev
+    # Start Orbit
+    ./orbit serve
 
-    # Access at http://localhost:5173
+    # Access the web interface at
+    http://localhost:8090
     ```
   </TabItem>
 </Tabs>

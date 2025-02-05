@@ -2,20 +2,28 @@
 
 This repository contains the official documentation for Orbit, security scanning and automation platform. The documentation is built using [Starlight](https://starlight.astro.build), a documentation framework powered by Astro.
 
+📚 **View the live documentation at [orbitscanner.io](https://orbitscanner.io)**
+
 ## 🚀 Quick Start
 
 ```bash
-# Clone the repository
-git clone https://github.com/orbitscanner/docs
+# Download the Orbit executable
+wget https://github.com/orbitscanner/orbit/releases/latest/download/orbit
 
-# Install dependencies
-pnpm install
+# Make it executable
+chmod +x orbit
 
-# Start the development server
-pnpm dev
+# Set your API key (must be 32 characters)
+export ORBIT_API_KEY=12345678901234567890123456789012
+
+# Start Orbit
+./orbit serve
+
+# Access the web interface at
+http://localhost:8090
 ```
 
-Visit `http://localhost:4321` to see the documentation site.
+That's it! Orbit is now running and you can access the web interface in your browser.
 
 ## 📖 Documentation Structure
 

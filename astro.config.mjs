@@ -65,7 +65,7 @@ export default defineConfig({
                     // Remove the /docs/ prefix from links as Starlight handles this automatically
                     { label: 'Introduction', link: '/' },
                     { label: 'Getting Started', link: '/getting-started/' },
-                    { label: 'Installation', link: '/installation/' },
+                    { label: 'Setup Guide', link: '/setup-guide/' },
                 ],
             },
             {

@@ -1,73 +1,142 @@
 ---
-title: Getting Started with Orbit
-description: Learn how to set up and start using Orbit
+title: Getting Started
+description: Learn how to install and run Orbit on your system
 ---
 
-This guide will walk you through the process of setting up Orbit and getting started with its core features.
+# Getting Started with Orbit
 
 ## Prerequisites
 
-Before you begin, ensure you have the following installed:
+Orbit requires Ansible and Terraform for automation and infrastructure management. Here's how to install them:
 
-- Node.js (v16 or later)
-- pnpm (v7 or later)
-- Go (v1.19 or later)
-- Git
+### macOS
 
-## Installation
-
-1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/orbit.git
-cd orbit
+# Install Homebrew if you haven't already
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install Ansible and Terraform
+brew install ansible
+brew install terraform
 ```
 
-2. Install dependencies:
+### Linux (Ubuntu/Debian)
+
 ```bash
-pnpm install
+# Install Ansible
+sudo apt update
+sudo apt install -y ansible
+
+# Install Terraform
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
+wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install terraform
 ```
 
-3. Set up PocketBase:
+### Linux (RHEL/CentOS)
+
 ```bash
-cd pocketbase
-go mod download
+# Install Ansible
+sudo dnf install -y ansible
+
+# Install Terraform
+sudo yum install -y yum-utils
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+sudo yum -y install terraform
 ```
 
-4. Configure environment variables:
+## Quick Installation
+
+### macOS and Linux
+
 ```bash
-cp .env.example .env
+# Download the Orbit executable
+wget https://github.com/orbitscanner/orbit/releases/latest/download/orbit
+
+# Make it executable
+chmod +x orbit
+
+# Set your API key (must be 32 characters)
+export ORBIT_API_KEY=12345678901234567890123456789012
+
+# Start Orbit
+./orbit serve
+
+# Access the web interface at
+http://localhost:8090
 ```
 
-Edit the `.env` file with your configuration:
+### Windows Support
 
-```env
-PUBLIC_POCKETBASE_URL=http://127.0.0.1:8090
-# Add other required environment variables
-```
+:::caution[Windows Limitations]
+Windows is not natively supported due to dependencies on Ansible and Terraform. These tools are designed for Unix-like systems and have limited Windows support. We recommend using one of these alternatives:
+- Docker installation (recommended for Windows users)
+- Windows Subsystem for Linux (WSL2) with Ubuntu
+- Running in a Linux virtual machine
 
-## Running the Application
+If using WSL2, you can follow the Ubuntu installation instructions above within your WSL2 environment.
+:::
 
-1. Start PocketBase:
+## Docker Installation
+
+Docker provides the easiest way to run Orbit across all platforms.
+
 ```bash
-cd pocketbase
-./pocketbase serve
+# Pull the Orbit image
+docker pull orbitscanner/orbit:latest
+
+# Run Orbit container
+docker run -d \
+  -p 8090:8090 \
+  -e ORBIT_API_KEY=12345678901234567890123456789012 \
+  orbitscanner/orbit:latest
+
+# Access the web interface at
+http://localhost:8090
 ```
 
-2. In a new terminal, start the development server:
+### Docker Compose
+
+For a more complete setup, you can use Docker Compose:
+
+```yaml
+# docker-compose.yml
+version: '3.8'
+services:
+  orbit:
+    image: orbitscanner/orbit:latest
+    ports:
+      - "8090:8090"
+    environment:
+      - ORBIT_API_KEY=12345678901234567890123456789012
+    volumes:
+      - orbit_data:/data
+    restart: unless-stopped
+
+volumes:
+  orbit_data:
+```
+
+Run with:
 ```bash
-pnpm dev
+docker-compose up -d
 ```
-
-The application should now be running at `http://localhost:5173`
-
-## Initial Setup
-
-1. Create an admin account through the PocketBase admin interface at `http://127.0.0.1:8090/_/`
-2. Configure your SMTP settings in the PocketBase admin dashboard
-3. Set up your first organization and invite team members
 
 ## Next Steps
 
-- [User Guide](/docs/user-guide/) - Learn how to use Orbit's features
-- [Configuration](/docs/configuration/) - Detailed configuration options
-- [Development Guide](/docs/development/) - Start developing with Orbit 
+- [Setup Guide](/setup-guide/) - Configure Orbit through the web interface
+- [Configuration Guide](/configuration/) - Learn how to configure Orbit
+- [User Guide](/user-guide/) - Learn how to use Orbit's features
+- [Development Guide](/development/) - Set up Orbit for development
+- [API Reference](/api-reference/) - Explore the API documentation
+- Join our [Discord community](https://discord.gg/BHIS) for support
+
+## Troubleshooting
+
+If you encounter any issues:
+
+1. Check the logs with `./orbit logs`
+2. Ensure all prerequisites are installed
+3. Verify your API key is exactly 32 characters
+4. Join our Discord for community support 
