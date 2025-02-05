@@ -7,141 +7,102 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 # Docker Deployment Guide
 
-This guide will help you deploy Orbit using Docker and Docker Compose, covering both development and production environments.
+This guide will help you deploy Orbit using Docker and Docker Compose.
 
 ## Prerequisites
 
 Before you begin, ensure you have:
 - Docker Engine installed (version 20.10.0 or higher)
 - Docker Compose V2 installed
-- Git installed (for cloning the repository)
 
 ## Quick Start
 
 The fastest way to get Orbit running with Docker:
 
 ```bash
-# Clone the repository
-git clone https://github.com/orbitscanner/orbit
-cd orbit
+# Create directories for persistent data
+mkdir -p docker/data docker/nuclei-templates
 
-# Start the containers
-docker compose up -d
-
-# Access the application
-# Frontend: http://localhost:5173
-# PocketBase: http://localhost:8090
-```
-
-## Docker Compose Configuration
-
-Our standard `docker-compose.yml` configuration:
-
-```yaml
+# Create docker-compose.yml
+cat > docker-compose.yml << 'EOL'
 version: '3.8'
-services:
-  frontend:
-    build: ./frontend
-    ports:
-      - "5173:5173"
-    environment:
-      - PUBLIC_POCKETBASE_URL=http://pocketbase:8090
-    depends_on:
-      - pocketbase
 
-  pocketbase:
-    build: ./backend
+services:
+  orbit:
+    image: ghcr.io/orbitscanner/orbit:latest
+    restart: unless-stopped
+    environment:
+      - API_ENCRYPTION_KEY=12345678901234567890123456789012  # Change this!
+      - DEBUG=1  # Enable debug output
+    volumes:
+      - ./docker/data:/app/pb_data
+      - ./docker/nuclei-templates:/app/nuclei-templates
     ports:
       - "8090:8090"
-    volumes:
-      - pb_data:/pb/pb_data
-
-volumes:
-  pb_data:
-```
-
-## Development vs Production
-
-<Tabs>
-  <TabItem label="Development">
-    ```bash
-    # Start development environment
-    docker compose up -d
-
-    # View logs
-    docker compose logs -f
-
-    # Stop containers
-    docker compose down
-    ```
-  </TabItem>
-  <TabItem label="Production">
-    ```bash
-    # Build production images
-    docker compose -f docker-compose.prod.yml build
-
-    # Deploy with production settings
-    docker compose -f docker-compose.prod.yml up -d
-
-    # Monitor logs
-    docker compose logs -f
-    ```
-  </TabItem>
-</Tabs>
-
-## Production Configuration
-
-The production configuration (`docker-compose.prod.yml`) includes additional security and optimization settings:
-
-```yaml
-version: '3.8'
-services:
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.prod
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - PUBLIC_POCKETBASE_URL=http://pocketbase:8090
-    restart: unless-stopped
-    depends_on:
-      - pocketbase
-
-  pocketbase:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.prod
-    ports:
-      - "8090:8090"
-    volumes:
-      - pb_data:/pb/pb_data
-    restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8090/api/health"]
-      interval: 30s
-      timeout: 10s
+      test: ["CMD", "curl", "-f", "http://localhost:8090/_/"]
+      interval: 10s
+      timeout: 5s
       retries: 3
+      start_period: 5s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+EOL
 
-volumes:
-  pb_data:
+# Start Orbit
+docker-compose up -d
+
+# Access the web interface at http://localhost:8090
+
+docker run -d \
+  --name orbit \
+  -p 3000:3000 \
+  -v /path/to/data:/data \
+  ghcr.io/orbitscanner/orbit:latest
 ```
 
-## Environment Variables
+## Configuration Details
 
-Key environment variables for Docker deployment:
+### Environment Variables
 
-```bash
-# Frontend Environment Variables
-PUBLIC_POCKETBASE_URL=http://pocketbase:8090
-NODE_ENV=production  # For production builds
+- `API_ENCRYPTION_KEY`: A 32-character key used for encryption (required)
+- `DEBUG`: Enable debug output (optional, set to 1 to enable)
 
-# PocketBase Environment Variables
-SMTP_HOST=smtp.example.com
-SMTP_PORT=587
-SMTP_USERNAME=your-username
-SMTP_PASSWORD=your-password
+### Volumes
+
+- `/app/pb_data`: Persistent storage for Orbit data
+- `/app/nuclei-templates`: Custom nuclei templates directory
+
+### Ports
+
+- `8090`: Main web interface and API
+
+## Health Checks
+
+The Docker container includes health checks to monitor the application status:
+
+```yaml
+healthcheck:
+  test: ["CMD", "curl", "-f", "http://localhost:8090/_/"]
+  interval: 10s
+  timeout: 5s
+  retries: 3
+  start_period: 5s
+```
+
+## Logging
+
+Log rotation is configured to prevent disk space issues:
+
+```yaml
+logging:
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "3"
 ```
 
 ## Data Persistence
@@ -149,52 +110,12 @@ SMTP_PASSWORD=your-password
 Docker volumes are used to persist data:
 
 ```bash
-# List volumes
-docker volume ls
+# Backup data
+tar czf orbit_backup.tar.gz docker/data docker/nuclei-templates
 
-# Backup PocketBase data
-docker run --rm -v orbit_pb_data:/data -v $(pwd):/backup alpine tar czf /backup/pb_data_backup.tar.gz /data
-
-# Restore PocketBase data
-docker run --rm -v orbit_pb_data:/data -v $(pwd):/backup alpine sh -c "cd /data && tar xzf /backup/pb_data_backup.tar.gz --strip 1"
+# Restore data
+tar xzf orbit_backup.tar.gz
 ```
-
-## Health Checks and Monitoring
-
-Monitor your Docker containers:
-
-```bash
-# Check container status
-docker compose ps
-
-# View container metrics
-docker stats
-
-# Check container logs
-docker compose logs -f [service_name]
-```
-
-## Security Best Practices
-
-1. **Use Production Builds**
-   - Always use production Docker configurations in production
-   - Enable build-time optimizations
-   - Minimize container size
-
-2. **Network Security**
-   - Use internal Docker networks
-   - Limit exposed ports
-   - Configure reverse proxy for production
-
-3. **Resource Management**
-   - Set container resource limits
-   - Monitor container health
-   - Implement proper logging
-
-4. **Data Security**
-   - Regular volume backups
-   - Secure environment variables
-   - Implement access controls
 
 ## Troubleshooting
 
@@ -203,29 +124,41 @@ Common issues and solutions:
 1. **Container Won't Start**
    ```bash
    # Check logs
-   docker compose logs [service_name]
+   docker-compose logs
    
    # Verify configuration
-   docker compose config
+   docker-compose config
    ```
 
 2. **Permission Issues**
    ```bash
    # Fix volume permissions
-   docker compose down
-   docker volume rm orbit_pb_data
-   docker compose up -d
+   sudo chown -R 1000:1000 docker/data docker/nuclei-templates
    ```
 
-3. **Network Issues**
-   ```bash
-   # Inspect networks
-   docker network ls
-   docker network inspect orbit_default
-   ```
+3. **API Key Issues**
+   - Ensure `API_ENCRYPTION_KEY` is exactly 32 characters
+   - Check for special characters that might need escaping
+
+## Security Best Practices
+
+1. **API Key Security**
+   - Use a strong, random 32-character key
+   - Consider using environment files or secrets management
+   - Never share or commit your API key
+
+2. **Network Security**
+   - Use internal Docker networks when possible
+   - Configure reverse proxy for production use
+   - Implement proper firewall rules
+
+3. **Data Security**
+   - Regular backups of the data volume
+   - Proper permissions on mounted volumes
+   - Monitor disk space usage
 
 ## Next Steps
 
-- Configure [SSL/TLS](/guides/ssl-configuration/)
-- Set up [Monitoring](/guides/monitoring/)
-- Implement [CI/CD](/guides/ci-cd/) 
+- Configure custom nuclei templates
+- Set up monitoring
+- Implement backup strategies 
