@@ -16,13 +16,27 @@ Before you begin, ensure you have:
 - Docker Compose V2 installed
 
 ## Quick Start
-
 The fastest way to get Orbit running with Docker:
+
 
 ```bash
 # Create directories for persistent data
 mkdir -p docker/data docker/nuclei-templates
 
+```
+
+### Docker Run
+
+```bash
+docker run -d \
+  --name orbit \
+  -p 8090:8090 \
+  -v ./docker/data:/app/pb_data \
+  -v ./docker/nuclei-templates:/app/nuclei-templates \
+  ghcr.io/orbitscanner/orbit:latest
+```
+
+### Docker Compose
 # Create docker-compose.yml
 cat > docker-compose.yml << 'EOL'
 version: '3.8'
@@ -56,12 +70,6 @@ EOL
 docker-compose up -d
 
 # Access the web interface at http://localhost:8090
-
-docker run -d \
-  --name orbit \
-  -p 3000:3000 \
-  -v /path/to/data:/data \
-  ghcr.io/orbitscanner/orbit:latest
 ```
 
 ## Configuration Details
