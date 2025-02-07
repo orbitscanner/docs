@@ -135,13 +135,13 @@ Docker provides the easiest way to run Orbit across all platforms.
 
 ```bash
 # Pull the Orbit image
-docker pull orbitscanner/orbit:latest
+docker pull ghcr.io/orbitscanner/orbit:latest
 
 # Run Orbit container
 docker run -d \
   -p 8090:8090 \
   -e API_ENCRYPTION_KEY=12345678901234567890123456789012 \
-  orbitscanner/orbit:latest
+  ghcr.io/orbitscanner/orbit:latest
 
 # Access the web interface at
 http://localhost:8090
@@ -156,7 +156,7 @@ For a more complete setup, you can use Docker Compose:
 version: '3.8'
 services:
   orbit:
-    image: orbitscanner/orbit:latest
+    image: ghcr.io/orbitscanner/orbit:latest
     ports:
       - "8090:8090"
     environment:
