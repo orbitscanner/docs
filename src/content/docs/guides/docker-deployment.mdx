@@ -37,8 +37,10 @@ docker run -d \
 ```
 
 ### Docker Compose
-# Create docker-compose.yml
-cat > docker-compose.yml << 'EOL'
+
+Create a `docker-compose.yml` file with the following contents:
+
+```yaml
 version: '3.8'
 
 services:
@@ -64,9 +66,11 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-EOL
+```
 
-# Start Orbit
+Then start Orbit:
+
+```bash
 docker-compose up -d
 
 # Access the web interface at http://localhost:8090
