@@ -14,7 +14,7 @@ wget https://github.com/orbitscanner/orbit/releases/latest/download/orbit
 chmod +x orbit
 
 # Set your API key (must be 32 characters)
-export ORBIT_API_KEY=12345678901234567890123456789012
+export ORBIT_API_KEY=$(openssl rand -base64 24 | tr -d '=+/[:space:]' | cut -c1-32)
 
 # Start Orbit
 ./orbit serve
